@@ -8,8 +8,8 @@
             Pizza List
         </div>
         @foreach($pizzas as $pizza)
-        <p>
-        {{$loop->index}} {{ $pizza["type"]}} - {{ $pizza["base"]}} - {{ $pizza["price"]}}
+        <p> 
+        {{$pizza->name}} - {{$pizza->type}} - {{$pizza->base}}
         </p>
         @endforeach
     </div>
