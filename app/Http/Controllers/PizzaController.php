@@ -9,9 +9,11 @@ class PizzaController extends Controller
 {
     public function index()
     {
-        
-    $pizzas = Pizza::orderBy('name','desc')->get();
-   return view('pizzas', [
+    $pizzas = Pizza::all(); 
+    //$pizzas = Pizza::orderBy('name','desc')->get();
+    //$pizzas = Pizza::where('type','hawaiian')->get();
+    //$pizzas = Pizza::latest()->get();
+   return view('pizzas.index', [
     "pizzas" => $pizzas
     ]);
   
@@ -20,6 +22,30 @@ class PizzaController extends Controller
 
     public function show($id)
     {
-        return view('details',['id'=>$id]);
+        $pizza = Pizza::findOrFail($id);
+        return view('pizzas.show',['pizza'=>$pizza]);
+    }
+
+    public function create()
+    {
+        return view('pizzas.create');
+    }
+
+    public function store()
+    {
+        $pizza = new Pizza();
+        $pizza->name=request('name');
+        $pizza->type=request('type');
+        $pizza->base=request('base');
+        $pizza->toppings=request('toppings');
+        $pizza->save();
+        return redirect('/')->with('msg','Sucess!');
+    }
+
+    public function destroy($id)
+    {
+        $pizza = Pizza::findOrFail($id);
+        $pizza->delete();
+        return redirect('/pizzas');
     }
 }
